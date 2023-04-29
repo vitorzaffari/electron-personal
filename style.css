@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&family=Poppins:wght@100;200;400;700&family=Sofia+Sans+Condensed:wght@200&family=Zilla+Slab+Highlight&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.body-container{
+    font-family: Poppins;
+    background-color: red;
+    width: 100vw;
+    height: 100vh;
+}
+
+.main-content-container{
+    margin: 0 auto;
+    width: 500px;
+    height: 100%;
+    background-color: rgba(240, 248, 255, 0.39);
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+}
+
+.header-section{
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+    width: 100%;
+    background-color: aliceblue;
+    padding: 1rem;
+}
+
+
+.main-functions-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    background-color: aliceblue;
+    padding: 1rem;
+}
+
+
+.function{
+    border: 1px solid red;
+}
+
+
+
+/* 
+///////////////////////////////////
+font styles //////////////////////// */
+.header-section > h1{
+    font-weight: 200;
+}
