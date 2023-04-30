@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poor+Story&family=Poppins:wght@100;200;400;700&family=Sofia+Sans+Condensed:wght@200&family=Zilla+Slab+Highlight&display=swap');
 
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    user-select: none;
 }
 
 .body-container{
@@ -13,10 +13,21 @@
     height: 100vh;
 }
 
+.content{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 500ms ease;
+}
+.hidden{
+    /* max-height: 50px; */
+
+}
+
+
 .main-content-container{
     margin: 0 auto;
     width: 500px;
-    height: 100%;
+    height: fit-content;
     background-color: rgba(240, 248, 255, 0.39);
     padding: 1rem;
 
@@ -40,14 +51,16 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    height: 100%;
+    height: fit-content;
     background-color: aliceblue;
     padding: 1rem;
+    gap: 1rem;
 }
 
 
 .function{
-    border: 1px solid red;
+    background-color: rgba(240, 128, 128, 0.384);
+    /* border: 1px solid red; */
 }
 
 
@@ -57,4 +70,9 @@
 font styles //////////////////////// */
 .header-section > h1{
     font-weight: 200;
+}
+
+.title.expand{
+    background-color: rgba(173, 216, 230, 0.562);
+    /* border: 1px solid blue; */
 }
