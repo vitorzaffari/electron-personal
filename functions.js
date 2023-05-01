@@ -1,5 +1,6 @@
 const parentOfTitles = document.querySelector(".main-functions-container");
 
+const addBtn = document.querySelectorAll(".btn")
 
 
 
@@ -11,20 +12,37 @@ const parentOfTitles = document.querySelector(".main-functions-container");
 
 
 parentOfTitles.addEventListener("click", (event) => {
-  // Get the clicked element and its target sibling element
-  const clickedElement = event.target;
-  const targetElement = clickedElement.parentElement.nextElementSibling;
-
+  //listens for a click on the function container
+  const clickedElement = event.target.closest("div");
+  //clickedElement is the div with the title of the function ("tracker, to-do")
+  const targetElement = clickedElement.nextElementSibling;
+  //target element is the div.content
 
   // Check if the target element is hidden and toggle it accordingly
-  if (targetElement) {
-    //Checks if the clicked element has a parent that has a sibling
-    targetElement.classList.toggle("hidden");
-    targetElement.style.maxHeight =
-    targetElement.classList.contains('hidden')? "0px" : `${targetElement.scrollHeight}px`;
+  // console.log(clickedElement.children);
+
+  if (targetElement === null || !targetElement.classList.contains('content')) return;
+  
+  if (event.target.classList.contains('add-new')){
+    targetElement.classList.remove("hidden");
+    targetElement.style.maxHeight = `${(targetElement.scrollHeight) + 20}px`;
+    return
   }
-//   } else if (!targetElement.classList.contains("hidden")) {
-//     targetElement.classList.add("hidden");
-//     targetElement.style.maxHeight = `0px`;
-//   }
+  //Checks if the clicked div has a sibling and if that sibling has a class content
+  // console.log(clickedElement.children);
+  // console.log(event.target === addBtn);
+  // console.log(event.target.classList.contains('btn'))
+
+  targetElement.classList.toggle("hidden");
+
+
+  targetElement.style.maxHeight = targetElement.classList.contains("hidden")
+    ? "0px" : `${(targetElement.scrollHeight) + 20}px`;
+
+
+
+  //Sets the max height to the targetElement to 0 if it contains
+  //the 'hidden' class or dinamically gets the div's full height,
+  //without `${targetElement.scrollHeight}px` the animation would be broken;
 });
+

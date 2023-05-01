@@ -10,24 +10,46 @@
     font-family: Poppins;
     background-color: red;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .content{
     max-height: 0;
     overflow: hidden;
-    transition: max-height 500ms ease;
+    transition:  500ms ease;
+    
 }
-.hidden{
-    /* max-height: 50px; */
+.content > * {
+    border: 1px solid green;
+    /* padding: 10px; */
+}
+
+/* 
+// made for styling purposes, without this inner div 
+// the JS code that aplies the height dinamically won't
+// calculate the padding and it'll bug, but since the padding
+// of the inner elements are calculated this works */
+.mfs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 1rem;
+}
+.mfs > *{
+    padding: 1rem;
+    border: 1px solid rgb(97, 204, 97);
 
 }
 
+
+.tracker-item{
+    background-color: aliceblue;
+}
 
 .main-content-container{
     margin: 0 auto;
     width: 500px;
-    height: fit-content;
+    min-height: fit-content;
     background-color: rgba(240, 248, 255, 0.39);
     padding: 1rem;
 
@@ -72,7 +94,23 @@ font styles //////////////////////// */
     font-weight: 200;
 }
 
+
+
 .title.expand{
     background-color: rgba(173, 216, 230, 0.562);
     /* border: 1px solid blue; */
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+
+
+
+
+
+
+.btn{
+    background-color: #fff;
+    padding: .5rem;
 }
