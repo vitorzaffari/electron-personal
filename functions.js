@@ -1,48 +1,34 @@
-const parentOfTitles = document.querySelector(".main-functions-container");
+const functionsContainer = document.querySelector(".main-functions-container");
 
-const addBtn = document.querySelectorAll(".btn")
+const addNewTracker = document.querySelector(".btn__tracker");
 
-
-
-
-
-
-
-
-
-
-parentOfTitles.addEventListener("click", (event) => {
-  //listens for a click on the function container
+functionsContainer.addEventListener("click", (event) => {
+  //listens for a click on the functions container
   const clickedElement = event.target.closest("div");
   //clickedElement is the div with the title of the function ("tracker, to-do")
   const targetElement = clickedElement.nextElementSibling;
   //target element is the div.content
+  if (targetElement === null || !targetElement.classList.contains("content"))
+    return;
 
-  // Check if the target element is hidden and toggle it accordingly
-  // console.log(clickedElement.children);
+  if (event.target.classList.contains("add-new")) {
+    targetElement.classList.add("is-open");
+    if (event.target.matches(".btn__tracker")) {
+      console.log(targetElement.children[0]);
+      const newItem = document.createElement("div")
+      newItem.classList.add("item");
+      const newItemTracker = document.createElement("div")
+      newItemTracker.classList.add("item__tracker")
+      const itemName = document.createElement("p");
+      itemName.textContent = "O que eu digitei"
+     
+      newItem.appendChild(newItemTracker);
+      newItemTracker.appendChild(itemName)
+      targetElement.children[0].insertBefore(newItem, targetElement.children[0].firstChild)
+    
+    }
 
-  if (targetElement === null || !targetElement.classList.contains('content')) return;
-  
-  if (event.target.classList.contains('add-new')){
-    targetElement.classList.remove("hidden");
-    targetElement.style.maxHeight = `${(targetElement.scrollHeight) + 20}px`;
-    return
+    return;
   }
-  //Checks if the clicked div has a sibling and if that sibling has a class content
-  // console.log(clickedElement.children);
-  // console.log(event.target === addBtn);
-  // console.log(event.target.classList.contains('btn'))
-
-  targetElement.classList.toggle("hidden");
-
-
-  targetElement.style.maxHeight = targetElement.classList.contains("hidden")
-    ? "0px" : `${(targetElement.scrollHeight) + 20}px`;
-
-
-
-  //Sets the max height to the targetElement to 0 if it contains
-  //the 'hidden' class or dinamically gets the div's full height,
-  //without `${targetElement.scrollHeight}px` the animation would be broken;
+  targetElement.classList.toggle("is-open");
 });
-
