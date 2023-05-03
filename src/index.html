@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +10,7 @@
       content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self'  https://fonts.gstatic.com"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -54,6 +56,20 @@
 
             <div class="content">
               <div class="inner">
+                <div class="add-new-item">
+                  <div class="add-new-inner">
+                    <form id="tracker-form">
+                      <label for="new-item">New Item</label>
+                      <input type="text" id="new-item" required>
+                      <br>
+                      <label for="new-date">Date</label>
+                      <input type="date" id="new-date" required>
+                      <br>
+                      <input type="submit" value="Add">
+                    </form>
+                    
+                  </div>
+                </div>
                 <div class="item">
                   <div class="item__tracker">
                     <p>Item being tracked 1</p>
@@ -181,6 +197,8 @@
         </div>
       </div>
     </div>
+
     <script src="functions.js"></script>
   </body>
 </html>
+
