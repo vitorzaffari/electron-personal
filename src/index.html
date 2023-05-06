@@ -33,28 +33,14 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
         <div class="main-functions-container">
-
-
 
           <div class="function-tracker function">
 
             <div class="title expand">
               <h2>Time Tracker</h2>
-              <button class="btn btn__tracker add-new" >Add new</button>
+              <button id="tracker-btn" class="btn btn__tracker add-new" >Add new</button>
             </div>
-
-
 
             <div class="content">
               <div class="inner">
@@ -106,10 +92,20 @@
           <div class="function-todo function">
             <div class="title expand">
               <h2>To-do</h2>
-              <button class="btn add-new">Add new</button>
+              <button class="btn btn__todo add-new">Add new</button>
             </div>
             <div class="content">
               <div class="inner">
+
+                <div class="add-new-item">
+                  <div class="add-new-inner">
+                    <form id="todo-form">
+                      <label for="new-item">New Item</label>
+                      <input type="text" id="new-item" required>
+                      <input type="submit" value="Add">
+                    </form>
+                  </div>
+                </div>
                 <div class="item">
                   <div class="item__todo">
                     <p>todo text 1</p>
@@ -125,15 +121,25 @@
           </div>
 
 
-
-
           <div class="function-timer function">
             <div class="title expand">
               <h2>Timer - Crono</h2>
-              <button class="btn add-new">Add new</button>
+              <button class="btn btn__timer add-new">Add new</button>
             </div>
             <div class="content">
               <div class="inner">
+
+                <div class="add-new-item">
+                  <div class="add-new-inner">
+                    <form id="timer-form">
+                      <label for="new-item">New Item</label>
+                      <input type="text" id="new-item" required>
+                      <input type="submit" value="Add">
+                    </form>
+                  </div>
+                </div>
+
+
                 <div class="item">
                   <div class="item__timer">
                     <p>timer text 1</p>
@@ -148,20 +154,28 @@
             </div>
           </div>
 
-
-
           
           <div class="function-copypaste function">
             <div class="title expand">
               <h2>Copy & Paste</h2>
-              <button class="btn add-new">Add new</button>
+              <button class="btn btn__copy add-new">Add new</button>
             </div>
             <div class="content">
               <div class="inner">
+
+                <div class="add-new-item">
+                  <div class="add-new-inner">
+                    <form id="copy-form">
+                      <label for="new-item">New Item</label>
+                      <input type="text" id="new-item" required>
+                      <input type="submit" value="Add">
+                    </form>
+                  </div>
+                </div>
+
                 <div class="item">
                   <div class="item__copypaste">
                     <p>copy text 1</p>
-
                   </div>
                 </div>
               </div>
@@ -169,15 +183,25 @@
           </div>
 
 
-
-
           <div class="functions-calendar function">
             <div class="title expand">
               <h2>Calendar, maybe</h2>
-              <button class="btn add-new">Add new</button>
+              <button class="btn btn__calendar add-new">Add new</button>
             </div>
             <div class="content">
               <div class="inner">
+
+                <div class="add-new-item">
+                  <div class="add-new-inner">
+                    <form id="calendar-form">
+                      <label for="new-item">New Item</label>
+                      <input type="text" id="new-item" required>
+                      <input type="submit" value="Add">
+                    </form>
+                  </div>
+                </div>
+
+
                 <div class="item">
                   <div class="item__calendar">
                     <p>calendar text 1</p>
@@ -192,8 +216,13 @@
             </div>
           </div>
 
+          <div class="theme">
+            <p>Current theme: <strong id="theme-src">System</strong></p>
 
+            <button id="toggle-dark-mode">Toggle Theme</button>
+            <button id="reset">Reset to system theme</button>
 
+          </div>
 
 
         </div>

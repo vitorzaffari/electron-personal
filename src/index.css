@@ -14,7 +14,6 @@
 
 .body-container{
   font-family: Poppins;
-  background-color: red;
   width: 100vw;
   min-height: 100vh;
 }
@@ -33,6 +32,37 @@
 }
 
 
+:root{
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme:dark) {
+  .body-container{
+    background-color: #222;
+    color: #ffffff;
+  }
+  
+.btn{
+  background-color: #d8d8d8;
+  padding: .5rem;
+}
+
+}
+
+
+@media (prefers-color-scheme:light) {
+  .body-container{
+    background-color: #ffdddd;
+    color: #000;
+  }
+  
+.btn{
+  background-color: #929292;
+  padding: .5rem;
+}
+
+
+}
 
 
 /* //////////////////////////// HEADER /////////////////////////// */
@@ -44,7 +74,7 @@
   justify-content: space-between;
   height: fit-content;
   width: 100%;
-  background-color: aliceblue;
+  background-color: rgb(180, 220, 255);
   padding: 1rem;
 }
 .header-section > h1{
@@ -62,7 +92,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   height: fit-content;
-  background-color: aliceblue;
+  background-color: rgb(194, 226, 255);
   padding: 1rem;
   gap: 1rem;
 }
@@ -108,7 +138,7 @@
 
 .add-new-item{
   display: none;
-  background-color:#fff;
+  background-color:#ffb7b7;
 
 }
 .add-new-inner{
@@ -163,11 +193,6 @@
 
 
 
-
-.btn{
-  background-color: #fff;
-  padding: .5rem;
-}
 
 
 

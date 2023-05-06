@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu} = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, Menu, nativeTheme} = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -58,6 +58,19 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   ipcMain.on("set-title", handleSetTitle);
+  ipcMain.handle('dark-mode:toggle', ()=> {
+    if(nativeTheme.shouldUseDarkColors){
+      nativeTheme.themeSource = 'light';
+      console.log("Native theme dark colors changed to light");
+    } else {
+      nativeTheme.themeSource = 'dark';
+      console.log("Native theme light changed to dark");
+    } return nativeTheme.shouldUseDarkColors;
+  })
+
+  ipcMain.handle('dark-mode:system', () => {
+    nativeTheme.themeSource = 'system';
+  })
   ipcMain.handle("dialog:openFile", handleFileOpen);
   ipcMain.on("counter-value", (_event, value) => {
     console.log(value);
