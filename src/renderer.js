@@ -6,27 +6,52 @@ const addTimerBtn = document.getElementById("timer-btn");
 const addCopyBtn = document.getElementById("copy-btn");
 const addCalendarBtn = document.getElementById("calendar-btn");
 
+const retrievedData = teste.getRetrievedData()
+console.log(retrievedData," Funcionou!");
+// document.addEventListener('DOMContentLoaded', () => {
+//   // window.dataManipulationAPI.receive('retrievedData', retrievedData =>{
+//   //   console.log(retrievedData);
+//   // })
+
+// })
+
+
 
 trackerForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const newItemName = trackerForm.elements[0];
   const newItemDate = trackerForm.elements[1];
+  const newItemNameValue = newItemName.value;
+  const newItemDateValue = newItemDate.value;
   //store the input values
   // console.log(newItemName);
   //create a new item div
   const newItemDiv = document.createElement("div");
   newItemDiv.classList.add("item");
+
+
   const newItemTrackerDiv = document.createElement("div");
   newItemTrackerDiv.classList.add("item__tracker");
+
+
   const itemName = document.createElement("p");
-  itemName.textContent = newItemName.value;
+  itemName.textContent = newItemNameValue
+
+
   const itemDate = document.createElement("p");
-  itemDate.textContent = newItemDate.value;
+  itemDate.textContent = newItemDateValue;
 
   newItemDiv.appendChild(newItemTrackerDiv);
+
   newItemTrackerDiv.appendChild(itemName);
+
   newItemTrackerDiv.appendChild(itemDate);
-  //
+  
+  let divData = {itemNome: newItemNameValue, itemData:newItemDateValue}
+  window.bridge.sendData(divData)
+
+
+
   const firstItemdiv =
     trackerForm.closest("div.add-new-item").nextElementSibling;
   const itemsDiv = firstItemdiv.parentElement;

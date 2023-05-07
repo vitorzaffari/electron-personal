@@ -21,6 +21,15 @@ async function handleFileOpen() {
   }
 }
 
+function handleSaveData(event, data){
+  const dadosExistentes = JSON.parse(fs.readFileSync('data/data.json')) 
+  dadosExistentes.tracker.push(data)
+  fs.writeFile('data/data.json', JSON.stringify(dadosExistentes), (err) => {
+    if(err) throw err;
+    console.log("Item adicionado");
+  });
+}
+
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -32,6 +41,23 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
     },
   });
+
+
+  fs.readFile('data/data.json', (err, data) => {
+    if (err) throw err;
+    const retrievedData = JSON.parse(data)
+    mainWindow.webContents.send('retrievedData', retrievedData)
+  });
+
+
+
+
+
+
+
+
+
+
 
   const menu = Menu.buildFromTemplate([
     {
@@ -49,7 +75,10 @@ const createWindow = () => {
     },
   ]);
   Menu.setApplicationMenu(menu);
+  
   ipcMain.handle("ping", () => "pong");
+
+
   mainWindow.loadFile(path.join(__dirname, "index.html"));
 
   // Open the DevTools.
@@ -57,6 +86,16 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+  ipcMain.on("saveDataToDisk", handleSaveData);
+  
+
+
+
+
+
+
+
+
   ipcMain.on("set-title", handleSetTitle);
   ipcMain.handle('dark-mode:toggle', ()=> {
     if(nativeTheme.shouldUseDarkColors){
@@ -75,12 +114,22 @@ app.whenReady().then(() => {
   ipcMain.on("counter-value", (_event, value) => {
     console.log(value);
   });
+  
   createWindow();
 
   app.on("activate", function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
+
+
+
+
+
+
+
+
 
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
