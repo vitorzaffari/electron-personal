@@ -1,45 +1,70 @@
 const functionsContainer = document.querySelector(".main-functions-container");
 const trackerForm = document.getElementById("tracker-form");
 const addTrackerBtn = document.getElementById("tracker-btn");
-const addTodoBtn = document.getElementById("todo-btn");
-const addTimerBtn = document.getElementById("timer-btn");
-const addCopyBtn = document.getElementById("copy-btn");
-const addCalendarBtn = document.getElementById("calendar-btn");
+// const addTodoBtn = document.getElementById("todo-btn");
+// const addTimerBtn = document.getElementById("timer-btn");
+// const addCopyBtn = document.getElementById("copy-btn");
+// const addCalendarBtn = document.getElementById("calendar-btn");
+const itemNameInput = trackerForm.querySelector('#new-item');
+const yearInput = trackerForm.querySelector('#new-year');
+const dayInput = trackerForm.querySelector('#new-day');
+const monthInput = trackerForm.querySelector('#new-month');
 
-const retrievedData = teste.getRetrievedData()
+const retrievedData = getData.getRetrievedData()
 console.log(retrievedData," Funcionou!");
-// document.addEventListener('DOMContentLoaded', () => {
-//   // window.dataManipulationAPI.receive('retrievedData', retrievedData =>{
-//   //   console.log(retrievedData);
-//   // })
 
-// })
+let dateNow = new Date();
+let dayNow = dateNow.getDate();
+let monthNow = (dateNow.getMonth()) + 1;
+let yearNow = dateNow.getFullYear();
+console.log(dayNow, monthNow, yearNow);
 
+yearInput.value = yearNow;
+yearInput.min = yearNow;
+
+
+itemNameInput.addEventListener('input', (e) => {
+  let itemNameValue = itemNameInput.value;
+
+  if(itemNameValue.charAt(0)=== ' '){
+    e.target.value = ''
+  }
+})
 
 
 trackerForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const newItemName = trackerForm.elements[0];
-  const newItemDate = trackerForm.elements[1];
-  const newItemNameValue = newItemName.value;
-  const newItemDateValue = newItemDate.value;
-  //store the input values
-  // console.log(newItemName);
-  //create a new item div
+  let validated;
+
+  const itemNameValue = itemNameInput.value;
+  const dayValue = dayInput.value;
+  const monthValue = monthInput.value;
+  const yearValue = yearInput.value;
+
+
+  validated = validateInputs(itemNameInput, dayValue, monthValue, yearValue, dayNow, monthNow, yearNow);
+  if(!validated){
+    return
+  }
+
+  const futureDateObj = new Date(`${yearValue}-${monthValue}-${dayValue}`);
+  const dateDiff = futureDateObj - dateNow;
+  const diffDays = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
+  const diffYears = Math.floor(diffDays / 30);
+  const diffDMonths = Math.floor(diffDays / 365);
+
+  console.log(`Faltam ${diffDays} dias, ${diffYears} meses e ${diffDMonths} anos para a data ${futureDateObj}`);
   const newItemDiv = document.createElement("div");
   newItemDiv.classList.add("item");
-
 
   const newItemTrackerDiv = document.createElement("div");
   newItemTrackerDiv.classList.add("item__tracker");
 
-
   const itemName = document.createElement("p");
-  itemName.textContent = newItemNameValue
-
+  itemName.textContent = itemNameValue
 
   const itemDate = document.createElement("p");
-  itemDate.textContent = newItemDateValue;
+  itemDate.textContent = `${dayValue}-${monthValue}-${yearValue} `;
 
   newItemDiv.appendChild(newItemTrackerDiv);
 
@@ -47,7 +72,7 @@ trackerForm.addEventListener("submit", (event) => {
 
   newItemTrackerDiv.appendChild(itemDate);
   
-  let divData = {itemNome: newItemNameValue, itemData:newItemDateValue}
+  let divData = {itemNome: itemNameValue, itemData:`${dayValue}-${monthValue}-${yearValue} `}
   window.bridge.sendData(divData)
 
 
@@ -57,8 +82,11 @@ trackerForm.addEventListener("submit", (event) => {
   const itemsDiv = firstItemdiv.parentElement;
   // console.log(trackerForm.classList);
   itemsDiv.insertBefore(newItemDiv, firstItemdiv);
+
+
+
   closeForm(trackerForm);
-  emptyInputs(newItemName, newItemDate);
+  emptyInputs(itemNameInput, dayInput, monthInput, yearInput);
   // insertBefore(newItemDiv, trackerForm.closest('div.add-new-item').
   // nextElementSibling.firstChild)
 });
@@ -69,11 +97,20 @@ functionsContainer.addEventListener("click", (event) => {
   //clickedElement is the div with the title of the function ("tracker, to-do")
   const targetElement = clickedElement.nextElementSibling;
   //target element is the div.content
-  if (targetElement === null || !targetElement.classList.contains("content"))
-    return;
+  if (targetElement === null || !targetElement.classList.contains("content")){
+    if(event.target.classList.contains('cancel')){
+      let formDiv = event.target.closest('.add-new-item')
+      closeForm(formDiv);
+      emptyInputs(itemNameInput, dayInput, monthInput, yearInput )
+      return
+    } else {
+      return;
+    }
+  }
+  
+  const fnctFormDiv = targetElement.querySelector('.add-new-item');
 
 
-  const fnctFormDiv = targetElement.children[0].children[0];
 // the first children[0] is the "inner" div, and its children[0] is the ALWAYS the FORM
 // which is hidden by default 
 
@@ -83,19 +120,19 @@ functionsContainer.addEventListener("click", (event) => {
 
     //show the corresponding form
     if (event.target.matches(".btn__tracker")) {
-      fnctFormDiv.style.display = "block";
+      fnctFormDiv.classList.add('is-open');
     }
     if (event.target.matches(".btn__todo")) {
-      fnctFormDiv.style.display = "block";
+      fnctFormDiv.classList.add('is-open');
     }
     if (event.target.matches(".btn__timer")) {
-      fnctFormDiv.style.display = "block";
+      fnctFormDiv.classList.add('is-open');
     }
     if (event.target.matches(".btn__copy")) {
-      fnctFormDiv.style.display = "block";
+      fnctFormDiv.classList.add('is-open');
     }
     if (event.target.matches(".btn__calendar")) {
-      fnctFormDiv.style.display = "block";
+      fnctFormDiv.classList.add('is-open');
     }
 
     return;
@@ -103,6 +140,7 @@ functionsContainer.addEventListener("click", (event) => {
 
 //if the title div is clicked while the form is open it'll close and hide it
   targetElement.classList.toggle("is-open");
+
   closeForm(fnctFormDiv)
   // fnctFormDiv.style.display = "none";
 });
@@ -118,48 +156,48 @@ functionsContainer.addEventListener("click", (event) => {
 
 function closeForm(typeofform) {
   const close = typeofform.closest("div.add-new-item");
-  close.style.display = "none";
+  // close.style.display = "grid";
+  close.classList.remove('is-open')
 }
 
-function emptyInputs(input, input2) {
+function emptyInputs(input, input2, input3, input4) {
   input.value = "";
-  input2.value = "";
+  input2.value = 1;
+  input3.value = 1;
+  input4.value = 2023;
+
+}
+
+function validateInputs(input, input2, input3, input4, dayNow, monthNow, yearNow){
+  console.log("inputs:", input.value, input2, input3, input4);
+  let returnValue = true;
+
+  if(input.value === ''){
+    console.log("Nome inválido", input);
+    returnValue = false
+  }
+  if(input4 < yearNow){
+    console.log("Ano invalido");
+    returnValue = false
+
+  }
+
+  if(input4 == yearNow && input3 < monthNow){
+    console.log("Mes invalido");
+    returnValue = false
+
+  }
+
+  if(input4 == yearNow && input3 == monthNow && input2 <= dayNow){
+    console.log("Dia invalido");
+    returnValue = false
+
+  }
+
+  return returnValue
 }
 
 
-
-
-
-////////////////////////////////////////////////////////////////////
-let title = "Meu aaa1";
-window.electronAPI.setTitle(title);
-
-const btn = document.querySelector(".test-btn");
-const filePathElement = document.getElementById("filePath");
-btn.addEventListener("click", async () => {
-  const filePath = await window.electronAPI.openFile();
-  filePathElement.innerText = filePath;
-});
-
-const counter2 = document.getElementById("counter2");
-window.electronAPI.onUpdateCounter((event, value) => {
-  const oldValue = Number(counter2.innerText);
-  const newValue = oldValue + value;
-  counter2.innerText = newValue;
-  event.sender.send("counter-value", newValue);
-});
-
-const counter = (document.getElementById(
-  "counter"
-).innerHTML = `This app is usging Chrome (v${versions.chrome()}), 
-Node.js (v${versions.node()}), and Elctron (v${versions.electron()})`);
-
-const func = async () => {
-  const response = await window.versions.ping();
-  console.log(response);
-};
-
-func();
 
 
 const themeSrc = document.getElementById('theme-src')
@@ -168,7 +206,6 @@ const resetBtn = document.getElementById('reset')
 
 toggleDarkbtn.addEventListener('click', async() => {
   const isDarkMode = await window.darkMode.toggle()
-  console.log(isDarkMode);
   themeSrc.innerHTML = isDarkMode ? 'Dark' : "Light";
 })
 

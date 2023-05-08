@@ -1,0 +1,25 @@
+.tracker_label{
+    font-size: 14px;
+    position: absolute;
+    transform: translateY(-18px);
+}
+
+.tracker_label_wrap{
+    position: relative;
+}
+
+#tracker-form{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.tracker_data{
+    display: flex;
+    gap: 1rem;
+}
+
+.tracker_data .tracker_label_wrap 
+.date_input{
+    width: 60px;
+}
