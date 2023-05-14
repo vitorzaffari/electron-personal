@@ -16,7 +16,7 @@ contextBridge.exposeInMainWorld("getData", {
 contextBridge.exposeInMainWorld("bridge", {
   sendData: (data) => {
     ipcRenderer.send("saveDataToDisk", data);
-    console.log(data);
+    // console.log(data);
   },
 });
 
@@ -30,5 +30,4 @@ contextBridge.exposeInMainWorld("bridge", {
 
 contextBridge.exposeInMainWorld("darkMode", {
   toggle: () => ipcRenderer.invoke("dark-mode:toggle"),
-  system: () => ipcRenderer.invoke("dark-mode:system"),
 });

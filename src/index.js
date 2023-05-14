@@ -50,27 +50,6 @@ const createWindow = () => {
   });
 
 
-
-  // const menu = Menu.buildFromTemplate([
-  //   {
-  //     label: app.name,
-  //     submenu: [
-  //       {
-  //         click: () => mainWindow.webContents.send("update-counter", 1),
-  //         label: "Increment",
-  //       },
-  //       {
-  //         click: () => mainWindow.webContents.send("update-counter", -1),
-  //         label: "Decrement",
-  //       },
-  //     ],
-  //   },
-  // ]);
-  // Menu.setApplicationMenu(menu);
-  
-  // ipcMain.handle("ping", () => "pong");
-
-
   mainWindow.loadFile(path.join(__dirname, "index.html"));
 
   // Open the DevTools.
@@ -93,14 +72,8 @@ app.whenReady().then(() => {
       console.log("Native theme light changed to dark");
     } return nativeTheme.shouldUseDarkColors;
   })
-  ipcMain.handle('dark-mode:system', () => {
-    nativeTheme.themeSource = 'system';
-  })
-  // ipcMain.handle("dialog:openFile", handleFileOpen);
-  // ipcMain.on("counter-value", (_event, value) => {
-  //   console.log(value);
-  // });
-  
+
+
   createWindow();
 
   app.on("activate", function () {

@@ -1,7 +1,4 @@
 import { calculateDate } from "./datesHandler.js";
-const remaining = calculateDate(9,12,2023);
-console.log(remaining);
-
 
 const functionsContainer = document.querySelector(".main-functions-container");
 const trackerForm = document.getElementById("tracker-form");
@@ -21,8 +18,7 @@ const retrievedData = getData.getRetrievedData();
 
 const retrievedDataTrackerArray = retrievedData.tracker;
 retrievedDataTrackerArray.forEach((item) => {
-
-  const remain = calculateDate(item.itemData)
+  const remain = calculateDate(item.itemData);
 
   const div = document.createElement("div");
   div.classList.add("item");
@@ -30,22 +26,39 @@ retrievedDataTrackerArray.forEach((item) => {
   const innerDiv = document.createElement("div");
   innerDiv.classList.add("item__tracker");
 
-  const itemName = document.createElement("p");
-  itemName.textContent = `Nome = ${item.itemName}`;
+  const editDeleteDiv = document.createElement("div");
+  editDeleteDiv.classList.add("edit-delete-container")
+  editDeleteDiv.innerHTML = `<span class="material-icons md-21 icon-btn">
+  mode_edit
+  </span> <span class="material-icons md-21 icon-btn">
+  delete
+  </span>`
+
+
+  const itemName = document.createElement("div");
+  itemName.classList.add('item-name')
+  itemName.innerHTML = `<span class="material-icons">
+  explore
+  </span><p>${item.itemNome}</p>`;
 
   const itemDate = document.createElement("p");
-  itemDate.textContent = `Data = ${item.itemData}`;
+  itemDate.textContent = `Data:  ${item.itemData}`;
 
+  const itemRemain = document.createElement("div");
+  itemRemain.classList.add("remain-info-div")
+  itemRemain.style.backgroundColor = remain.colorStatus
+  itemRemain.innerHTML = `<p>${remain.dataFormatada}</p>`;
   
-  const itemRemain = document.createElement("p");
-  itemName.textContent = `Faltam aproximadamente ${remain.remainingDays} dias`;
 
   div.appendChild(innerDiv);
+  innerDiv.appendChild(editDeleteDiv)
   innerDiv.appendChild(itemName);
   innerDiv.appendChild(itemDate);
   innerDiv.appendChild(itemRemain);
 
-  const parentDiv = document.querySelector('.function-tracker').querySelector('.inner');
+  const parentDiv = document
+    .querySelector(".function-tracker")
+    .querySelector(".inner");
   parentDiv.insertBefore(div, parentDiv.children[1]);
 });
 
@@ -54,13 +67,12 @@ let dayNow = dateNow.getDate();
 let monthNow = dateNow.getMonth() + 1;
 let yearNow = dateNow.getFullYear();
 // console.log(dayNow, monthNow, yearNow);
-
+dayInput.value = dayNow;
+monthInput.value = monthNow;
 yearInput.value = yearNow;
-yearInput.min = yearNow;
 
 itemNameInput.addEventListener("input", (e) => {
   let itemNameValue = itemNameInput.value;
-
   if (itemNameValue.charAt(0) === " ") {
     e.target.value = "";
   }
@@ -77,9 +89,9 @@ trackerForm.addEventListener("submit", (event) => {
 
   validated = validateInputs(
     itemNameInput,
-    dayValue,
-    monthValue,
-    yearValue,
+    dayInput,
+    monthInput,
+    yearInput,
     dayNow,
     monthNow,
     yearNow
@@ -88,53 +100,60 @@ trackerForm.addEventListener("submit", (event) => {
     return;
   }
 
-  const futureDateObj = new Date(`${yearValue}-${monthValue}-${dayValue}`);
-  const dateDiff = futureDateObj - dateNow;
-  const diffDays = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
-  const diffYears = Math.floor(diffDays / 30);
-  const diffDMonths = Math.floor(diffDays / 365);
-
-  console.log(
-    `Faltam ${diffDays} dias, ${diffYears} meses e ${diffDMonths} anos para a data ${futureDateObj}`
-  );
-
-  
-  
   const newItemDiv = document.createElement("div");
   newItemDiv.classList.add("item");
-  
+
   const newItemTrackerDiv = document.createElement("div");
   newItemTrackerDiv.classList.add("item__tracker");
-  
-  const itemName = document.createElement("p");
-  itemName.textContent = itemNameValue;
-  
+
+  const itemName = document.createElement("div");
+  itemName.classList.add('item-name')
+  itemName.innerHTML = `<span class="material-icons">
+  explore
+  </span><p>${itemNameValue}</p>`;
+
+  const editDeleteDiv = document.createElement("div");
+  editDeleteDiv.classList.add("edit-delete-container")
+  editDeleteDiv.innerHTML = `<span class="material-icons md-21 icon-btn">
+  mode_edit
+  </span> <span class="material-icons md-21 icon-btn">
+  delete
+  </span>`
+
+
   const itemDate = document.createElement("p");
-  itemDate.textContent = `${dayValue}-${monthValue}-${yearValue} `;
-  const remain = calculateDate(`${dayValue}-${monthValue}-${yearValue}`)
+  itemDate.textContent = `${dayValue}/${monthValue}/${yearValue} `;
+  const dateFormat = `${dayValue}/${monthValue}/${yearValue}`;
+  // console.log("Date format: ", dateFormat);
+  const remain = calculateDate(dateFormat);
+
   
-    const itemRemain = document.createElement("p");
-    itemRemain.textContent = `Faltam aproximadamente ${remain.remainingDays} dias`;
+  const itemRemain = document.createElement("div");
+  itemRemain.classList.add("remain-info-div")
+  itemRemain.style.backgroundColor = remain.colorStatus
+  itemRemain.innerHTML = `<p>${remain.dataFormatada}</p>`;
+
+
 
   newItemDiv.appendChild(newItemTrackerDiv);
+  newItemTrackerDiv.appendChild(editDeleteDiv);
   newItemTrackerDiv.appendChild(itemName);
   newItemTrackerDiv.appendChild(itemDate);
   newItemTrackerDiv.appendChild(itemRemain);
 
   let divData = {
     itemNome: itemNameValue,
-    itemData: `${dayValue}-${monthValue}-${yearValue} `,
+    itemData: `${dayValue}/${monthValue}/${yearValue} `,
   };
   window.bridge.sendData(divData);
 
-  if(trackerForm.closest("div.add-new-item").nextElementSibling){
+  if (trackerForm.closest("div.add-new-item").nextElementSibling) {
     const firstItemdiv =
       trackerForm.closest("div.add-new-item").nextElementSibling;
     const itemsDiv = firstItemdiv.parentElement;
     // console.log(trackerForm.classList);
     itemsDiv.insertBefore(newItemDiv, firstItemdiv);
   } else console.log("oi");
-
 
   closeForm(trackerForm);
   emptyInputs(itemNameInput, dayInput, monthInput, yearInput);
@@ -144,6 +163,7 @@ trackerForm.addEventListener("submit", (event) => {
 
 functionsContainer.addEventListener("click", (event) => {
   //listens for a click on the functions container
+
   const clickedElement = event.target.closest("div");
   //clickedElement is the div with the title of the function ("tracker, to-do")
   const targetElement = clickedElement.nextElementSibling;
@@ -172,19 +192,6 @@ functionsContainer.addEventListener("click", (event) => {
     if (event.target.matches(".btn__tracker")) {
       fnctFormDiv.classList.add("is-open");
     }
-    if (event.target.matches(".btn__todo")) {
-      fnctFormDiv.classList.add("is-open");
-    }
-    if (event.target.matches(".btn__timer")) {
-      fnctFormDiv.classList.add("is-open");
-    }
-    if (event.target.matches(".btn__copy")) {
-      fnctFormDiv.classList.add("is-open");
-    }
-    if (event.target.matches(".btn__calendar")) {
-      fnctFormDiv.classList.add("is-open");
-    }
-
     return;
   }
 
@@ -203,57 +210,78 @@ function closeForm(typeofform) {
 
 function emptyInputs(input, input2, input3, input4) {
   input.value = "";
-  input2.value = 1;
-  input3.value = 1;
-  input4.value = 2023;
+  input2.value = dayNow;
+  input3.value = monthNow;
+  input4.value = yearNow;
 }
 
 function validateInputs(
-  input,
-  input2,
-  input3,
-  input4,
+  nomeInput,
+  dayInput,
+  monthInput,
+  yearInput,
   dayNow,
   monthNow,
   yearNow
 ) {
-  console.log("inputs:", input.value, input2, input3, input4);
+  // console.log("inputs:", nome.value, input2, input3, input4);
   let returnValue = true;
 
-  if (input.value === "") {
-    console.log("Nome inválido", input);
+  if (nomeInput.value === "") {
+    console.log("Nome inválido", nomeInput);
+    setError(nomeInput);
     returnValue = false;
   }
-  if (input4 < yearNow) {
+  if (yearInput.value < yearNow) {
     console.log("Ano invalido");
+
+    setError(yearInput);
+    setError(monthInput);
+    setError(dayInput);
     returnValue = false;
   }
 
-  if (input4 == yearNow && input3 < monthNow) {
+  if (yearInput.value == yearNow && monthInput.value < monthNow) {
     console.log("Mes invalido");
+    setError(monthInput);
+    setError(dayInput);
     returnValue = false;
   }
 
-  if (input4 == yearNow && input3 == monthNow && input2 <= dayNow) {
+  if (
+    yearInput.value == yearNow &&
+    monthInput.value == monthNow &&
+    dayInput.value <= dayNow
+  ) {
     console.log("Dia invalido");
+    setError(dayInput);
     returnValue = false;
   }
 
   return returnValue;
 }
 
+let timeoutId;
+function setError(input) {
+  clearTimeout(input.timeoutId);
+  input.classList.add("invalid-input");
+  input.nextElementSibling.style.opacity = "1";
+  input.nextElementSibling.style.transition = "100ms";
+
+  const clearError = () => {
+    input.nextElementSibling.style.transition = "300ms";
+    input.nextElementSibling.style.opacity = "0";
+    input.classList.remove("invalid-input");
+  };
+
+  input.timeoutId = setTimeout(clearError, 4000);
+}
+
 const themeSrc = document.getElementById("theme-src");
 const toggleDarkbtn = document.getElementById("toggle-dark-mode");
-const resetBtn = document.getElementById("reset");
 
 toggleDarkbtn.addEventListener("click", async () => {
   const isDarkMode = await window.darkMode.toggle();
   themeSrc.innerHTML = isDarkMode ? "Dark" : "Light";
 });
 
-resetBtn.addEventListener("click", async () => {
-  await window.darkMode.system();
-  themeSrc.innerHTML = "System";
-});
-
-/////////////////////////////////////////////////////////////////////////
