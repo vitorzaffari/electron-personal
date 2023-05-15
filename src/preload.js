@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require("electron");
-
+const uuid = require('uuid');
+contextBridge.exposeInMainWorld("uuid", uuid)
 
 
 let retrievedData = null
@@ -18,6 +19,10 @@ contextBridge.exposeInMainWorld("bridge", {
     ipcRenderer.send("saveDataToDisk", data);
     // console.log(data);
   },
+  removeData: (data) => {
+    ipcRenderer.send("removeData", data);
+    console.log(data);
+  }
 });
 
 

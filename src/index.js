@@ -24,18 +24,45 @@ if (require("electron-squirrel-startup")) {
 function handleSaveData(event, data){
   const dadosExistentes = JSON.parse(fs.readFileSync('data/data.json')) 
   dadosExistentes.tracker.push(data)
+  
   fs.writeFile('data/data.json', JSON.stringify(dadosExistentes), (err) => {
     if(err) throw err;
     console.log("Item adicionado");
   });
 }
 
+
+function handleRemoveData(event, data){
+
+
+  const dadosExistentes = JSON.parse(fs.readFileSync('data/data.json')) 
+  const idToDelete = dadosExistentes.tracker.findIndex(item => item.id == data); 
+console.log("index encontrado", idToDelete);
+  
+  if (idToDelete !== -1) {
+    console.log('achou');
+    
+    dadosExistentes.tracker.splice(idToDelete, 1);
+  } else {
+    console.log("n achou");
+  }
+  
+
+  fs.writeFile('data/data.json', JSON.stringify(dadosExistentes), (err) => {
+    if(err) throw err;
+    console.log("Item Deletado");
+  });
+}
+
+
+
+
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      // nodeIntegration: false,
+      nodeIntegration: true,
       contextIsolation: true,
       // enableRemoteModule:false,
       preload: path.join(__dirname, "preload.js"),
@@ -58,11 +85,11 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   ipcMain.on("saveDataToDisk", handleSaveData);
+  ipcMain.on("removeData", handleRemoveData);
   
 
 
 
-  // ipcMain.on("set-title", handleSetTitle);
   ipcMain.handle('dark-mode:toggle', ()=> {
     if(nativeTheme.shouldUseDarkColors){
       nativeTheme.themeSource = 'light';

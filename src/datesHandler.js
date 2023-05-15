@@ -38,9 +38,10 @@ export function calculateDate(date) {
   let monthsInYearDiff =
     Math.floor(dateDiff / monthInMs) - Math.floor(dateDiff / yearInMs) * 12;
 
-
-  if (dateDiff <= weekInMs) {
-    console.log("Date diff is less than week in ms ", (dateDiff/dayInMs).toFixed(1));
+if (dateDiff < 0) {
+   return {dataFormatada:`Expired`, colorStatus: 'red'}; 
+} else if (dateDiff <= weekInMs) {
+    // console.log("Date diff is less than week in ms ", (dateDiff/dayInMs).toFixed(1));
     return ({dataFormatada:`Less than a week, in ${(dateDiff/dayInMs).toFixed(1)} days`, colorStatus: 'rgb(143, 54, 54)'}
     )
   }
@@ -72,6 +73,6 @@ export function calculateDate(date) {
     return {dataFormatada:`In ${yearDifference} years and ${monthsInYearDiff} months`, colorStatus: '#002a4f'};;
   } else if (yearDifference > 1 && monthDifference === 1) {
     return {dataFormatada:`In ${yearDifference} years and 1 month`, colorStatus: 'rgb(143, 54, 54)'};
-  } else return {dataFormatada:`Expired`, colorStatus: '#002a4f'};
+  } else return {dataFormatada:`Don't know`, colorStatus: '#002a4f'};
 
 }
