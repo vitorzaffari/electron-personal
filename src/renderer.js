@@ -50,7 +50,7 @@ retrievedDataTrackerArray.forEach((item) => {
   </span><p>${item.itemNome}</p>`;
 
   const itemDate = document.createElement("p");
-  itemDate.textContent = `Data:  ${item.itemData}`;
+  itemDate.textContent = `${item.itemData}`;
 
   const itemRemain = document.createElement("div");
   itemRemain.classList.add("remain-info-div");
