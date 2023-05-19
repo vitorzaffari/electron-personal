@@ -1,4 +1,4 @@
-import { calculateDate } from "./datesHandler.js";
+import { createItemAndAppend, displayJsonItens, saveJsonItens } from "./jsonFunctions.js";
 
 const functionsContainer = document.querySelector(".main-functions-container");
 const trackerForm = document.getElementById("tracker-form");
@@ -10,8 +10,8 @@ let dateNow = new Date();
 let dayNow = dateNow.getDate();
 let monthNow = dateNow.getMonth() + 1;
 let yearNow = dateNow.getFullYear();
-dayInput.value = dayNow;
-monthInput.value = monthNow;
+dayInput.value = dayNow < 10 ? `0${dayNow +1}` : dayNow+1;
+monthInput.value = monthNow < 10 ? `0${monthNow}` : monthNow;
 yearInput.value = yearNow;
 
 itemNameInput.addEventListener("input", (e) => {
@@ -25,50 +25,10 @@ itemNameInput.addEventListener("input", (e) => {
 const retrievedData = getData.getRetrievedData();
 const retrievedDataTrackerArray = retrievedData.tracker;
 //TODO                             RETRIEVE DATA AND CREATE ELEMENTS FROM STORAGE
-retrievedDataTrackerArray.forEach((item) => {
-  const remain = calculateDate(item.itemData);
+displayJsonItens(retrievedDataTrackerArray)
 
-  const div = document.createElement("div");
-  div.id = item.id;
-  div.classList.add("item");
-
-  const innerDiv = document.createElement("div");
-  innerDiv.classList.add("item__tracker");
-
-  const editDeleteDiv = document.createElement("div");
-  editDeleteDiv.classList.add("edit-delete-container");
-  editDeleteDiv.innerHTML = `<span class="material-icons md-21 icon-btn">
-  mode_edit
-  </span> <span class="material-icons md-21 icon-btn delete-div-btn">
-  delete
-  </span>`;
-
-  const itemName = document.createElement("div");
-  itemName.classList.add("item-name");
-  itemName.innerHTML = `<span class="material-icons">
-  explore
-  </span><p>${item.itemNome}</p>`;
-
-  const itemDate = document.createElement("p");
-  itemDate.textContent = `${item.itemData}`;
-
-  const itemRemain = document.createElement("div");
-  itemRemain.classList.add("remain-info-div");
-  itemRemain.style.backgroundColor = remain.colorStatus;
-  itemRemain.innerHTML = `<p>${remain.dataFormatada}</p>`;
-
-  div.appendChild(innerDiv);
-  innerDiv.appendChild(editDeleteDiv);
-  innerDiv.appendChild(itemName);
-  innerDiv.appendChild(itemDate);
-  innerDiv.appendChild(itemRemain);
-
-  const parentDiv = document
-    .querySelector(".function-tracker")
-    .querySelector(".inner");
-  parentDiv.insertBefore(div, parentDiv.children[1]);
-});
 //TODO-------------------------------------------------------------------------------------
+
 
 //TODO                               CREATES A NEW ELEMENT ON USER CONFIRM FORM AND SENDS IT TO STORAGE
 trackerForm.addEventListener("submit", (event) => {
@@ -76,136 +36,82 @@ trackerForm.addEventListener("submit", (event) => {
   let validated;
 
   const itemNameValue = itemNameInput.value;
-  const dayValue = dayInput.value;
-  const monthValue = monthInput.value;
+  let dayValue = dayInput.value;
+  let monthValue = monthInput.value;
   const yearValue = yearInput.value;
-  validated = validateInputs(
-    itemNameInput,
-    dayInput,
-    monthInput,
-    yearInput,
-    dayNow,
-    monthNow,
-    yearNow
-  );
+
+  validated = validateInputs(  itemNameInput, dayInput, monthInput, yearInput,  dayNow, monthNow, yearNow );
   if (!validated) {
     return;
   }
 
-  const newItemDiv = document.createElement("div");
-  newItemDiv.id = window.uuid.v4();
-  newItemDiv.classList.add("item");
-
-  const newItemTrackerDiv = document.createElement("div");
-  newItemTrackerDiv.classList.add("item__tracker");
-
-  const itemName = document.createElement("div");
-  itemName.classList.add("item-name");
-  itemName.innerHTML = `<span class="material-icons">
-  explore
-  </span><p>${itemNameValue}</p>`;
-
-  const editDeleteDiv = document.createElement("div");
-  editDeleteDiv.classList.add("edit-delete-container");
-  editDeleteDiv.innerHTML = `<span class="material-icons md-21 icon-btn">
-  mode_edit
-  </span> <span class="material-icons md-21 icon-btn delete-div-btn">
-  delete
-  </span>`;
-
-  const itemDate = document.createElement("p");
-  itemDate.textContent = `${dayValue}/${monthValue}/${yearValue} `;
   const dateFormat = `${dayValue}/${monthValue}/${yearValue}`;
-  // console.log("Date format: ", dateFormat);
-  const remain = calculateDate(dateFormat);
-
-  const itemRemain = document.createElement("div");
-  itemRemain.classList.add("remain-info-div");
-  itemRemain.style.backgroundColor = remain.colorStatus;
-  itemRemain.innerHTML = `<p>${remain.dataFormatada}</p>`;
-
-  newItemDiv.appendChild(newItemTrackerDiv);
-  newItemTrackerDiv.appendChild(editDeleteDiv);
-  newItemTrackerDiv.appendChild(itemName);
-  newItemTrackerDiv.appendChild(itemDate);
-  newItemTrackerDiv.appendChild(itemRemain);
-
-  let divData = {
-    itemNome: itemNameValue,
-    itemData: `${dayValue}/${monthValue}/${yearValue} `,
-    id: newItemDiv.id,
-  };
-  window.bridge.sendData(divData);
-
-  if (trackerForm.closest("div.add-new-item").nextElementSibling) {
-    const firstItemdiv =
-      trackerForm.closest("div.add-new-item").nextElementSibling;
-    const itemsDiv = firstItemdiv.parentElement;
-    itemsDiv.insertBefore(newItemDiv, firstItemdiv);
-  } else console.log("oi");
-
+  const newId = window.uuid.v4();
+  createItemAndAppend(dateFormat, newId, itemNameValue)
+  saveJsonItens(itemNameValue, dayValue, monthValue, yearValue, newId)
   closeForm(trackerForm);
   emptyInputs(itemNameInput, dayInput, monthInput, yearInput);
 });
 //TODO----------------------------------------------------------------------------------------------
 
 functionsContainer.addEventListener("click", (event) => {
-  //listens for a click on the functions container
-  // console.log(event.target);
+  
   const eventTarget = event.target;
   const functionHeader = eventTarget.closest("div.title.expand");
   if (functionHeader) {
+
     const contentContainer = functionHeader.nextElementSibling;
-    // console.log("Function Header exists and is has a sibling called Content");
     const functionForm = contentContainer.querySelector(".add-new-item");
     if (eventTarget.matches(".add-new")) {
       contentContainer.classList.toggle("is-open", true);
       functionForm.classList.add("is-open");
+      itemNameInput.focus();
     } else {
       contentContainer.classList.toggle("is-open");
     }
+
+
   } else if (!functionHeader) {
+
     if (eventTarget.classList.contains("cancel")) {
       const functionForm = eventTarget.closest(".add-new-item");
       closeForm(functionForm);
       emptyInputs(itemNameInput, dayInput, monthInput, yearInput);
       return;
     } else if (eventTarget.matches(".delete-div-btn")) {
-      const removeDiv = eventTarget.closest("div.item");
-      const itemToRemoveId = removeDiv.id;
-      console.log(itemToRemoveId);
-      removeDiv.remove();
-      window.bridge.removeData(itemToRemoveId);
+      const confirmDiv = eventTarget.nextElementSibling;
+      confirmDiv.style.opacity = "1";
+      confirmDiv.style.zIndex = "10";
+      const clickHandler = (e) => {
+        if (e.target.classList.contains("__yes")) {
+          const removeDiv = eventTarget.closest("div.item");
+          const itemToRemoveId = removeDiv.id;
+          console.log(itemToRemoveId);
+          removeDiv.remove();
+          window.bridge.removeData(itemToRemoveId);
+        } else if (e.target.classList.contains("__no")) {
+          confirmDiv.style.opacity = "0";
+          confirmDiv.style.zIndex = "-1";
+          confirmDiv.removeEventListener("click", clickHandler)
+        }
+      }
+      confirmDiv.addEventListener("click", clickHandler);
+    } else if (eventTarget.matches(".edit-div-btn")) {
+      
     }
   }
 });
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 function closeForm(typeofform) {
   const close = typeofform.closest("div.add-new-item");
-  // close.style.display = "grid";
   close.classList.remove("is-open");
 }
 
 function emptyInputs(input, input2, input3, input4) {
   input.value = "";
-  input2.value = dayNow;
+  input2.value = dayNow+1;
   input3.value = monthNow;
   input4.value = yearNow;
 }
@@ -219,7 +125,6 @@ function validateInputs(
   monthNow,
   yearNow
 ) {
-  // console.log("inputs:", nome.value, input2, input3, input4);
   let returnValue = true;
 
   if (nomeInput.value === "") {
@@ -256,7 +161,6 @@ function validateInputs(
   return returnValue;
 }
 
-let timeoutId;
 function setError(input) {
   clearTimeout(input.timeoutId);
   input.classList.add("invalid-input");
@@ -272,10 +176,10 @@ function setError(input) {
   input.timeoutId = setTimeout(clearError, 4000);
 }
 
-const themeSrc = document.getElementById("theme-src");
-const toggleDarkbtn = document.getElementById("toggle-dark-mode");
+// const themeSrc = document.getElementById("theme-src");
+// const toggleDarkbtn = document.getElementById("toggle-dark-mode");
 
-toggleDarkbtn.addEventListener("click", async () => {
-  const isDarkMode = await window.darkMode.toggle();
-  themeSrc.innerHTML = isDarkMode ? "Dark" : "Light";
-});
+// toggleDarkbtn.addEventListener("click", async () => {
+//   const isDarkMode = await window.darkMode.toggle();
+//   themeSrc.innerHTML = isDarkMode ? "Dark" : "Light";
+// });

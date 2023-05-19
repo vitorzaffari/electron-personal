@@ -29,60 +29,52 @@
     <title>My Helper</title>
   </head>
   <body>
+    <div class="bar"></div>
     <div class="body-container">
       <div class="main-content-container">
-        <div class="header-section">
-          <h1>Good Morning</h1>
-          <p>< not working ></p>
-          <button class="test-btn">Preferences</button>
-        </div>
-
         <div class="main-functions-container">
           <div class="function-tracker function">
             <div class="title expand">
               <h2>Date Tracker</h2>
-              <button id="tracker-btn" class="btn btn__tracker add-new">
-                <span class="material-icons">
-                  add_task
-                  </span>
-              </button>
+                <button class="material-icons btn add-new"> queue </butto>
             </div>
 
             <div class="content">
               <div class="inner">
-
-                
                 <div class="add-new-item">
                   <div class="add-new-inner">
                     <form id="tracker-form" class="form">
+                      <div class="form-icon-input-wrap">
+                      <span class="material-icons md-21 badge">
+                        badge
+                      </span>
                       <div class="tracker_label_wrap">
-                        <span class="material-symbols-outlined stylus">
-                          stylus_note
-                        </span>
-                        <div>
 
-                          <input type="text" id="new-item" placeholder="Item"  class="text-input" />
-                          <div class="text-invalid"><p>Invalid</p></div>
-
-                        </div>
+                        <input
+                          type="text"
+                          id="new-item"
+                          class="text-input"
+                        />
+                        <div class="text-invalid"><p>Invalid</p></div>
                       </div>
-                      <div class="tracker_data">
-
-                        <span class="material-symbols-outlined">
-                          calendar_month
+                      </div>
+                      <div class="form-icon-input-wrap">
+                        <span class="material-icons md-21">
+                          alarm
                         </span>
                         <div class="tracker_label_wrap">
-                          <!-- <label for="new-date" class="tracker_label"
-                            >Day</label
-                          > -->
-                          <input  type="number" id="new-day"  class="date_input"  value="1"  min="1" max="31"  />
+                          <input
+                            type="number"
+                            id="new-day"
+                            class="date_input"
+                            value="1"
+                            min="1"
+                            max="31"
+                          />
                           <div class="text-invalid"><p>Invalid</p></div>
                         </div>
 
                         <div class="tracker_label_wrap">
-                          <!-- <label for="new-date" class="tracker_label"
-                            >Month</label
-                          > -->
                           <input
                             type="number"
                             id="new-month"
@@ -94,9 +86,7 @@
                           <div class="text-invalid"><p>Invalid</p></div>
                         </div>
                         <div class="tracker_label_wrap">
-                          <!-- <label for="new-date" class="tracker_label" 
-                            >Year</label
-                          > -->
+
                           <input
                             type="number"
                             id="new-year"
@@ -104,151 +94,26 @@
                           />
                           <div class="text-invalid"><p>Invalid</p></div>
                         </div>
-                        <span class="material-icons md-21  info">tips_and_updates</span>
                       </div>
+                     
                       <div class="add_cancel_wrap">
                         <input
                           type="submit"
                           value="done_all"
-                          class="btn add material-symbols-outlined"
+                          class="btn add material-icons"
                         />
                         <button
                           type="button"
-                          class="btn cancel material-symbols-outlined"
+                          class="btn cancel material-icons"
                         >
-                          delete
+                          cancel
                         </button>
                       </div>
                     </form>
                   </div>
                 </div>
-
               </div>
             </div>
-          </div>
-          <!-- 
-          <div class="function-todo function">
-            <div class="title expand">
-              <h2>To-do</h2>
-              <button class="btn btn__todo add-new">Add new</button>
-            </div>
-            <div class="content">
-              <div class="inner">
-                <div class="add-new-item">
-                  <div class="add-new-inner">
-                    <form id="todo-form" class="form">
-                      <label for="new-item">New Item</label>
-                      <input type="text" id="new-item" required />
-                      <input type="submit" value="Add" />
-                    </form>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="item__todo">
-                    <p>todo text 1</p>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="item__todo">
-                    <p>todo text 2</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="function-timer function">
-            <div class="title expand">
-              <h2>Timer - Crono</h2>
-              <button class="btn btn__timer add-new">Add new</button>
-            </div>
-            <div class="content">
-              <div class="inner">
-                <div class="add-new-item">
-                  <div class="add-new-inner">
-                    <form id="timer-form"  class="form">
-                      <label for="new-item">New Item</label>
-                      <input type="text" id="new-item" required />
-                      <input type="submit" value="Add" />
-                    </form>
-                  </div>
-                </div>
-
-                <div class="item">
-                  <div class="item__timer">
-                    <p>timer text 1</p>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="item__timer">
-                    <p>timer text 2</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="function-copypaste function">
-            <div class="title expand">
-              <h2>Copy & Paste</h2>
-              <button class="btn btn__copy add-new">Add new</button>
-            </div>
-            <div class="content">
-              <div class="inner">
-                <div class="add-new-item">
-                  <div class="add-new-inner">
-                    <form id="copy-form"  class="form">
-                      <label for="new-item">New Item</label>
-                      <input type="text" id="new-item" required />
-                      <input type="submit" value="Add" />
-                    </form>
-                  </div>
-                </div>
-
-                <div class="item">
-                  <div class="item__copypaste">
-                    <p>copy text 1</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="functions-calendar function">
-            <div class="title expand">
-              <h2>Calendar, maybe</h2>
-              <button class="btn btn__calendar add-new">Add new</button>
-            </div>
-            <div class="content">
-              <div class="inner">
-                <div class="add-new-item">
-                  <div class="add-new-inner">
-                    <form id="calendar-form"  class="form">
-                      <label for="new-item">New Item</label>
-                      <input type="text" id="new-item" required />
-                      <input type="submit" value="Add" />
-                    </form>
-                  </div>
-                </div>
-
-                <div class="item">
-                  <div class="item__calendar">
-                    <p>calendar text 1</p>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="item__calendar">
-                    <p>calendar text 2</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-          <div class="theme">
-            <p>Current theme: <strong id="theme-src">System</strong></p>
-
-            <button id="toggle-dark-mode">Toggle Theme</button>
           </div>
         </div>
       </div>
