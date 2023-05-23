@@ -30,72 +30,66 @@
   </head>
   <body>
     <div class="bar"></div>
-    <div class="body-container">
-      <div class="main-content-container">
-        <div class="main-functions-container">
-          <div class="function-tracker function">
-            <div class="title expand">
-              <h2>Date Tracker</h2>
-                <button class="material-icons btn add-new"> queue </butto>
-            </div>
-
-            <div class="content">
+    <div class="main-content-container">
+      <div class="main-functions-container">
+        <div class="function-tracker function">
+          <div class="title expand">
+            <h2>Date Tracker</h2>
+              <button class="material-icons btn add-new"> queue </butto>
+          </div>
+          <div class="content">
               <div class="inner">
                 <div class="add-new-item">
                   <div class="add-new-inner">
                     <form id="tracker-form" class="form">
+
                       <div class="form-icon-input-wrap">
                       <span class="material-icons md-21 badge">
                         badge
                       </span>
-                      <div class="tracker_label_wrap">
 
-                        <input
-                          type="text"
-                          id="new-item"
-                          class="text-input"
-                        />
-                        <div class="text-invalid"><p>Invalid</p></div>
+
+
+                      <div class="tracker_label_wrap">
+                         <input type="text" id="new-item"  class="text-input"/>
+                          <div class="text-invalid"><p>Invalid</p></div>
+                       </div>
                       </div>
-                      </div>
+
+
+
+
+
+
+
+
                       <div class="form-icon-input-wrap">
                         <span class="material-icons md-21">
                           alarm
                         </span>
+
+
                         <div class="tracker_label_wrap">
-                          <input
-                            type="number"
-                            id="new-day"
-                            class="date_input"
-                            value="1"
-                            min="1"
-                            max="31"
-                          />
+                          <input type="number" id="new-day"  class="date_input"  value="1" min="1" max="31" />
                           <div class="text-invalid"><p>Invalid</p></div>
                         </div>
 
-                        <div class="tracker_label_wrap">
-                          <input
-                            type="number"
-                            id="new-month"
-                            class="date_input"
-                            value="1"
-                            min="1"
-                            max="12"
-                          />
-                          <div class="text-invalid"><p>Invalid</p></div>
-                        </div>
-                        <div class="tracker_label_wrap">
 
-                          <input
-                            type="number"
-                            id="new-year"
-                            class="date_input"
-                          />
+                        <div class="tracker_label_wrap">
+                          <input type="number"  id="new-month"   class="date_input" value="1" min="1" max="12"/>
                           <div class="text-invalid"><p>Invalid</p></div>
                         </div>
-                      </div>
-                     
+
+
+                        <div class="tracker_label_wrap">
+                          <input type="number" id="new-year" class="date_input"/>
+                          <div class="text-invalid"><p>Invalid</p></div>
+                        </div>
+
+                        
+                      </div>                     
+
+
                       <div class="add_cancel_wrap">
                         <input
                           type="submit"
@@ -114,11 +108,9 @@
                 </div>
               </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-
+  </div>
     <script src="renderer.js" type="module"></script>
   </body>
 </html>

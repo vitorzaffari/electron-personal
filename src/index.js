@@ -51,7 +51,7 @@ const createWindow = () => {
     titleBarOverlay: {
       color: "#2f3241",
       symbolColor: "#74b1be",
-      height: 60,
+      height: 30,
     },
     width: 500,
     minWidth:500,
