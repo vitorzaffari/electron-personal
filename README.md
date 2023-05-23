@@ -1,1 +1,1 @@
-This is a personal pet project Im working on while learning how electron works
+This is a personal pet project I'm working on while learning how Electron works (for about an hour or so whenever I have free time). At the moment, it can take an input with a date and return how many days, weeks, months, or years are remaining.
