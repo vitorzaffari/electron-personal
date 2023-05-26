@@ -15,7 +15,10 @@ export function saveJsonItens(nome, day, month, year, id) {
         window.bridge.sendData(data);
 }
 
-export function editJsonItem() {}
+export function editJsonItem() {
+
+    
+}
 
 function createDiv(class1, id = "") {
   const div = document.createElement("div");

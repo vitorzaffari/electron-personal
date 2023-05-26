@@ -1,3 +1,4 @@
+import { calculateDate } from "./datesHandler.js";
 import {
   createItemAndAppend,
   displayJsonItens,
@@ -9,7 +10,6 @@ const trackerForm = document.getElementById("tracker-form");
 const itemNameInput = trackerForm.querySelector("#new-item");
 const yearInput = trackerForm.querySelector("#new-year");
 const dayInput = trackerForm.querySelector("#new-day");
-console.log(dayInput);
 
 const monthInput = trackerForm.querySelector("#new-month");
 let dateNow = new Date();
@@ -67,6 +67,8 @@ functionsContainer.addEventListener("click", (event) => {
   if (functionHeader) {
     const contentContainer = functionHeader.nextElementSibling;
     const functionForm = contentContainer.querySelector(".add-new-item");
+    console.log(functionForm);
+    
     if (eventTarget.matches(".add-new")) {
       contentContainer.classList.toggle("is-open", true);
       functionForm.classList.add("is-open");
@@ -117,65 +119,6 @@ function emptyInputs(input, input2, input3, input4) {
   input4.value = yearNow;
 }
 
-function validateInputs(
-  nomeInput,
-  dayInput,
-  monthInput,
-  yearInput,
-  dayNow,
-  monthNow,
-  yearNow
-) {
-  let returnValue = true;
-
-  if (nomeInput.value === "") {
-    console.log("Nome inválido", nomeInput);
-    setError(nomeInput);
-    returnValue = false;
-  }
-  if (yearInput.value < yearNow) {
-    console.log("Ano invalido");
-
-    setError(yearInput);
-    setError(monthInput);
-    setError(dayInput);
-    returnValue = false;
-  }
-
-  if (yearInput.value == yearNow && monthInput.value < monthNow) {
-    console.log("Mes invalido");
-    setError(monthInput);
-    setError(dayInput);
-    returnValue = false;
-  }
-
-  if (
-    yearInput.value == yearNow &&
-    monthInput.value == monthNow &&
-    dayInput.value <= dayNow
-  ) {
-    console.log("Dia invalido");
-    setError(dayInput);
-    returnValue = false;
-  }
-
-  return returnValue;
-}
-
-function setError(input) {
-  clearTimeout(input.timeoutId);
-  input.classList.add("invalid-input");
-  input.nextElementSibling.style.opacity = "1";
-  input.nextElementSibling.style.transition = "100ms";
-
-  const clearError = () => {
-    input.nextElementSibling.style.transition = "300ms";
-    input.nextElementSibling.style.opacity = "0";
-    input.classList.remove("invalid-input");
-  };
-
-  input.timeoutId = setTimeout(clearError, 4000);
-}
 
 // const themeSrc = document.getElementById("theme-src");
 // const toggleDarkbtn = document.getElementById("toggle-dark-mode");
@@ -189,16 +132,17 @@ function editElement(event) {
   
   console.log(event.closest(".item__tracker"));
   const elementContainer = event.closest(".item__tracker");
+  const elementId = elementContainer.parentElement.id;
   const nameElement = elementContainer.querySelector(".item-name");
   
   const dateElement = elementContainer.querySelector(".blank_div");
   
   const editElement = elementContainer.querySelector(".edit-delete-container");
-  console.log(editElement.parentNode);
 
-  const remailElement = elementContainer.querySelector(".remain-info-div");
+  const remainElement = elementContainer.querySelector(".remain-info-div");
   let nameContent = nameElement.querySelector("p").innerText;
   let dateContent = dateElement.querySelector("p").innerText;
+  
   const [day, month, year] = dateContent.split("/");
   // ! saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
@@ -249,7 +193,6 @@ function editElement(event) {
                                       newDayInvalidDiv.classList.add("text-invalid");
                                       newDayInvalidDiv.innerHTML = `<p>Invalid</p>`;
   
-  // !teste ---------------------------------------------------
                                       const newMonthInvalidDiv = document.createElement("div");
                                       newMonthInvalidDiv.classList.add("text-invalid");
                                       newMonthInvalidDiv.innerHTML = `<p>Invalid</p>`;
@@ -297,9 +240,9 @@ function editElement(event) {
 const editButtonsDiv = document.createElement("div");
 editButtonsDiv.classList.add('edit-delete-container')
 editButtonsDiv.innerHTML = `
-<input type="submit" value="done_all" class="btn add material-icons" />
+<input type="submit" id="confirm_edit" value="done" class="btn  material-icons" />
 
-<button type="button"class="btn cancel material-icons">cancel</button>`;
+<button type="button" id="cancel_edit" class="btn  material-icons">close</button>`;
 
 
   nameElement.parentNode.replaceChild(newNameInputWrap, nameElement);
@@ -307,21 +250,132 @@ editButtonsDiv.innerHTML = `
   dateElement.parentNode.replaceChild(newDateInputWrap, dateElement);
   editElement.parentNode.replaceChild(editButtonsDiv, editElement);
 
-  nameElement.style.borderBottom = "1px solid white";
-  dateElement.style.borderBottom = "1px solid white";
-  remailElement.style.opacity = "0.2";
-  console.log(nameContent);
-  console.log(dateContent);
 
-  // <div class="form-icon-input-wrap">
-  //                     <span class="material-icons md-21 badge">
-  //                       badge
-  //                     </span>
-  //                     <div class="tracker_label_wrap">
-  //                       <input
-  //                         type="text"
-  //                         id="new-item"
-  //                         class="text-input"
-  //                       />
-  //                       <div class="text-invalid"><p>Invalid</p></div>
+  remainElement.style.opacity = "0.2";
+  // console.log(nameContent);
+  // console.log(dateContent);
+  
+  nameInput.addEventListener("input", (e) => {
+    let itemNameValue = nameInput.value;
+    if (itemNameValue.charAt(0) === " ") {
+      e.target.value = "";
+    }
+  });
+
+  editButtonsDiv.addEventListener('click', (e) => {
+
+    let newDateContent = `${dateDayInput.value}/${dateMonthInput.value}/${dateYearInput.value}`
+    // console.log(newDateContent);
+    
+    let nameDidChange = checkForChanges(nameContent, nameInput.value);
+    let dateDidChange = checkForChanges(dateContent, newDateContent);
+      // console.log(e.target);
+      if(e.target.id ==="confirm_edit"){
+
+        if(!nameDidChange){
+          let isOkay = validateInputs(nameInput);
+          if (isOkay) {
+            nameElement.querySelector('p').innerText = nameInput.value
+            newNameInputWrap.parentNode.replaceChild(nameElement, newNameInputWrap);
+          } else {
+            console.log("Input inválido");
+            return
+          }
+
+        } else {
+          newNameInputWrap.parentNode.replaceChild(nameElement, newNameInputWrap);
+        }
+
+        const formatDate = calculateDate(newDateContent)
+        remainElement.style.opacity = ""
+        remainElement.style.backgroundColor = formatDate.colorStatus
+        remainElement.innerHTML = `<p>${formatDate.dataFormatada}</p>`
+
+        if(!dateDidChange){
+          dateElement.querySelector('p').innerText = newDateContent;
+          newDateInputWrap.parentNode.replaceChild(dateElement, newDateInputWrap);
+        } else {
+          newDateInputWrap.parentNode.replaceChild(dateElement, newDateInputWrap);
+        }
+        editButtonsDiv.parentNode.replaceChild(editElement,editButtonsDiv);
+
+        const data = {itemNome:nameInput.value, itemData: `${dateDayInput.value}/${dateMonthInput.value}/${dateYearInput.value}`, id:elementId}
+      window.bridge.editData(data)
+      }
+    })
+}
+
+function checkForChanges(firstValue, finalValue){
+  console.log("Fist value: ", firstValue);
+  console.log("Second value: ", finalValue);
+  console.log("Equal? ", finalValue === firstValue);
+  return finalValue === firstValue;
+  
+}
+
+
+
+
+function validateInputs(
+  nomeInput = '',
+  dayInput = '',
+  monthInput = '',
+  yearInput = '',
+  dayNow = '',
+  monthNow = '',
+  yearNow = ''
+) {
+  let returnValue = true;
+
+  if (nomeInput.value === "") {
+    console.log("Nome inválido", nomeInput);
+    setError(nomeInput);
+    returnValue = false;
+    console.log(nomeInput.value);
+    
+  }
+  if (yearInput.value < yearNow) {
+    console.log("Ano invalido");
+
+    setError(yearInput);
+    setError(monthInput);
+    setError(dayInput);
+    returnValue = false;
+  }
+
+  if (yearInput.value == yearNow && monthInput.value < monthNow) {
+    console.log("Mes invalido");
+    setError(monthInput);
+    setError(dayInput);
+    returnValue = false;
+  }
+
+  if (
+    yearInput.value == yearNow &&
+    monthInput.value == monthNow &&
+    dayInput.value <= dayNow
+  ) {
+    console.log("Dia invalido");
+    setError(dayInput);
+    returnValue = false;
+  }
+  console.log(returnValue);
+  
+  return returnValue;
+}
+
+
+function setError(input) {
+  clearTimeout(input.timeoutId);
+  input.classList.add("invalid-input");
+  input.nextElementSibling.style.opacity = "1";
+  input.nextElementSibling.style.transition = "100ms";
+
+  const clearError = () => {
+    input.nextElementSibling.style.transition = "300ms";
+    input.nextElementSibling.style.opacity = "0";
+    input.classList.remove("invalid-input");
+  };
+
+  input.timeoutId = setTimeout(clearError, 4000);
 }

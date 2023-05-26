@@ -44,6 +44,30 @@ function handleRemoveData(event, data) {
     console.log("Item Deletado");
   });
 }
+function handleEditData(event, data){
+  const dadosExistentes = JSON.parse(fs.readFileSync("data/data.json"));
+  console.log("This is the data passed: ", data)
+  const itemtoEdit = dadosExistentes.tracker.findIndex(
+    
+    (item) => item.id == data.id
+  );
+  console.log("index encontrado", itemtoEdit);
+  if (itemtoEdit !== -1) {
+    console.log("achou");
+    dadosExistentes.tracker[itemtoEdit].itemNome = data.itemNome;
+    dadosExistentes.tracker[itemtoEdit].itemData = data.itemData;
+    console.log("Item editado");
+
+  } else {
+    console.log("n achou");
+  }
+
+  fs.writeFile("data/data.json", JSON.stringify(dadosExistentes), (err) => {
+    if (err) throw err;
+    console.log("Salvo");
+  });
+}
+
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -79,6 +103,8 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   ipcMain.on("saveDataToDisk", handleSaveData);
+  ipcMain.on("editData", handleEditData);
+
   ipcMain.on("removeData", handleRemoveData);
 
   ipcMain.handle("dark-mode:toggle", () => {

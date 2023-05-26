@@ -1,116 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self'  https://fonts.gstatic.com"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="index.css" />
-    <link rel="stylesheet" href="track.css" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poor+Story&family=Poppins:wght@100;200;400;700&family=Sofia+Sans+Condensed:wght@200&family=Zilla+Slab+Highlight&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self'  https://fonts.gstatic.com" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="track.css" />
 
-    <title>My Helper</title>
-  </head>
-  <body>
-    <div class="bar"></div>
-    <div class="main-content-container">
-      <div class="main-functions-container">
-        <div class="function-tracker function">
-          <div class="title expand">
-            <h2>Date Tracker</h2>
-              <button class="material-icons btn add-new"> queue </butto>
-          </div>
-          <div class="content">
-              <div class="inner">
-                <div class="add-new-item">
-                  <div class="add-new-inner">
-                    <form id="tracker-form" class="form">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poor+Story&family=Poppins:wght@100;200;400;700&family=Sofia+Sans+Condensed:wght@200&family=Zilla+Slab+Highlight&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
-                      <div class="form-icon-input-wrap">
-                      <span class="material-icons md-21 badge">
-                        badge
-                      </span>
+  <title>My Helper</title>
+</head>
+
+<body>
+  <div class="bar"></div>
+  <div class="main-content-container">
+    <div class="main-functions-container">
+      <div class="function-tracker function">
+        <div class="title expand">
+          <h2>Date Tracker</h2>
+          <button class="material-icons btn add-new"> queue </butto>
+        </div>
+        <div class="content">
+          <div class="inner">
+            <div class="add-new-item">
+              <div class="add-new-inner">
+                <form id="tracker-form" class="form">
+
+                  <div class="form-icon-input-wrap">
+                    <span class="material-icons md-21 badge">
+                      badge
+                    </span>
 
 
 
-                      <div class="tracker_label_wrap">
-                         <input type="text" id="new-item"  class="text-input"/>
-                          <div class="text-invalid"><p>Invalid</p></div>
-                       </div>
+                    <div class="tracker_label_wrap">
+                      <input type="text" id="new-item" class="text-input" />
+                      <div class="text-invalid">
+                        <p>Invalid</p>
                       </div>
-
-
-
-
-
-
-
-
-                      <div class="form-icon-input-wrap">
-                        <span class="material-icons md-21">
-                          alarm
-                        </span>
-
-
-                        <div class="tracker_label_wrap">
-                          <input type="number" id="new-day"  class="date_input"  value="1" min="1" max="31" />
-                          <div class="text-invalid"><p>Invalid</p></div>
-                        </div>
-
-
-                        <div class="tracker_label_wrap">
-                          <input type="number"  id="new-month"   class="date_input" value="1" min="1" max="12"/>
-                          <div class="text-invalid"><p>Invalid</p></div>
-                        </div>
-
-
-                        <div class="tracker_label_wrap">
-                          <input type="number" id="new-year" class="date_input"/>
-                          <div class="text-invalid"><p>Invalid</p></div>
-                        </div>
-
-                        
-                      </div>                     
-
-
-                      <div class="add_cancel_wrap">
-                        <input
-                          type="submit"
-                          value="done_all"
-                          class="btn add material-icons"
-                        />
-                        <button
-                          type="button"
-                          class="btn cancel material-icons"
-                        >
-                          cancel
-                        </button>
-                      </div>
-                    </form>
+                    </div>
                   </div>
-                </div>
+
+
+
+
+
+
+
+
+                  <div class="form-icon-input-wrap">
+                    <span class="material-icons md-21">
+                      alarm
+                    </span>
+
+
+                    <div class="tracker_label_wrap">
+                      <input type="number" id="new-day" class="date_input" value="1" min="1" max="31" />
+                      <div class="text-invalid">
+                        <p>Invalid</p>
+                      </div>
+                    </div>
+
+
+                    <div class="tracker_label_wrap">
+                      <input type="number" id="new-month" class="date_input" value="1" min="1" max="12" />
+                      <div class="text-invalid">
+                        <p>Invalid</p>
+                      </div>
+                    </div>
+
+
+                    <div class="tracker_label_wrap">
+                      <input type="number" id="new-year" class="date_input" />
+                      <div class="text-invalid">
+                        <p>Invalid</p>
+                      </div>
+                    </div>
+
+
+                  </div>
+
+
+                  <div class="add_cancel_wrap">
+                    <input type="submit" value="done_all" class="btn add material-icons" />
+                    <button type="button" class="btn cancel material-icons">
+                      cancel
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="function-timer function">
+        <div class="title expand">
+          <h2>Timer</h2>
+          <button class="material-icons btn add-new"> queue </butto>
+        </div>
+        <div class="content">
+          <div class="inner">
+            <div class="add-new-item">
+              <div class="add-new-inner">
+                <form id="tracker-form" class="form">
+
+                  <input type="text" value="New Item">
+                  <p><span>00</span>: <span>00</span>: <span>00</span> </p>
+
+                  
+                  <div class="add_cancel_wrap">
+                    <input type="submit" value="done_all" class="btn add material-icons" />
+                    <button type="button" class="btn cancel material-icons">
+                      cancel
+                    </button>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
     </div>
   </div>
-    <script src="renderer.js" type="module"></script>
-  </body>
+  <script src="renderer.js" type="module"></script>
+</body>
+
 </html>

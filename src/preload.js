@@ -22,6 +22,11 @@ contextBridge.exposeInMainWorld("bridge", {
   removeData: (data) => {
     ipcRenderer.send("removeData", data);
     console.log(data);
+  },
+  editData: (data) => {
+    ipcRenderer.send("editData", data)
+    console.log(data);
+    
   }
 });
 
