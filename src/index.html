@@ -9,6 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="track.css" />
+  <link rel="stylesheet" href="timer.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -113,11 +114,14 @@
           <div class="inner">
             <div class="add-new-item">
               <div class="add-new-inner">
-                <form id="tracker-form" class="form">
+                <form id="timer-form" class="form">
 
-                  <input type="text" value="New Item">
-                  <p><span>00</span>: <span>00</span>: <span>00</span> </p>
-
+                  <input type="text" value="" placeholder="New Timer" id="timer-name">
+                  <div >
+                    <input class="timer-input"  type="number" name="hours"  id="timer-hours" min="0" value="0">
+                    <input class="timer-input" type="number" name="minutes"  id="timer-minutes" min="0" value="0">
+                    <input class="timer-input" type="number" name="seconds"  id="timer-seconds" min="0" value="0">
+                  </div>
                   
                   <div class="add_cancel_wrap">
                     <input type="submit" value="done_all" class="btn add material-icons" />

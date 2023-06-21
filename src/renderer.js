@@ -3,7 +3,15 @@ import {
   createItemAndAppend,
   displayJsonItens,
   saveJsonItens,
+  createNewTimer,
+  countdown
 } from "./jsonFunctions.js";
+
+const retrievedData = getData.getRetrievedData();
+const retrievedDataTrackerArray = retrievedData.tracker;
+displayJsonItens(retrievedDataTrackerArray);
+
+
 
 const functionsContainer = document.querySelector(".main-functions-container");
 const trackerForm = document.getElementById("tracker-form");
@@ -27,9 +35,70 @@ itemNameInput.addEventListener("input", (e) => {
   }
 });
 
-const retrievedData = getData.getRetrievedData();
-const retrievedDataTrackerArray = retrievedData.tracker;
-displayJsonItens(retrievedDataTrackerArray);
+const timerForm = document.getElementById("timer-form");
+const timerItem = document.getElementById("timer-name")
+const timerHours = document.getElementById("timer-hours")
+const timerMinutes = document.getElementById("timer-minutes")
+const timerSeconds = document.getElementById("timer-seconds")
+
+
+timerForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const ___format = timerItem.value.trim()
+    const hasName = ___format !== '';
+    // console.log("Does the item have a value", hasName, " Value:", ___format);
+    
+    let secondsValue =parseInt(timerSeconds.value);
+    let minutesValue =parseInt(timerMinutes.value);
+    let hoursValue =parseInt(timerHours.value);
+    const isSecondsEmpty = secondsValue == 0;
+    const isMinutesEmpty = minutesValue == 0;
+    const isHoursEmpty = hoursValue == 0;
+    const secNeedsFormat = secondsValue >59;
+    // console.log("Is seconds empty? :", isSecondsEmpty);
+    // console.log("Is minutes empty? :", isMinutesEmpty);
+    // console.log("Is hours empty? :", isHoursEmpty);
+    // console.log("Seconds need formating? :", secNeedsFormat);
+    if (secNeedsFormat) {
+      // console.log("Minutes from seconds: ",Math.floor(secondsValue/60));
+      const extraMinutesFromSecs = Math.floor(secondsValue/60)
+      // console.log("Remaninig Seconds: ",secondsValue-(extraMinutesFromSecs*60));
+      // console.log("Current Minutes value: ", minutesValue);
+      minutesValue = minutesValue + extraMinutesFromSecs
+      // console.log("Updated Minutes value: ", minutesValue);
+      secondsValue = secondsValue-(extraMinutesFromSecs*60)
+      // console.log("Updated Seconds Value: ", secondsValue);
+    
+    }
+    const minNeedsFormat = minutesValue >59;
+    // console.log("Minutes need formating? :", minNeedsFormat);
+
+    // console.log("Hours:", hoursValue, " Minutes: ", minutesValue, " Seconds: ", secondsValue);
+    
+    if (minNeedsFormat) {
+      // console.log("Need to format this: ",minutesValue);
+      
+      // console.log("Hours from minutes: ",Math.floor(minutesValue/60));
+      const extraHourFromMins = Math.floor(minutesValue/60)
+      // console.log("How many additional hours? =>", extraHourFromMins);
+      // console.log("Minutes before formatting => ", minutesValue);
+      // console.log("Hours before formatting => ", hoursValue);
+
+      hoursValue = hoursValue + extraHourFromMins;
+      minutesValue = minutesValue - (extraHourFromMins*60)
+      // console.log("Minutes after formatting => ", minutesValue);
+      // console.log("Hours after formatting => ", hoursValue);
+      
+
+    }
+    // console.log("Hours:", hoursValue, " Minutes: ", minutesValue, " Seconds: ", secondsValue);
+
+    const [countString, item] = createNewTimer(___format, hoursValue, minutesValue, secondsValue);
+    
+    // console.log(countString, item);
+    countdown(countString, item)
+})
+
 
 trackerForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -67,7 +136,7 @@ functionsContainer.addEventListener("click", (event) => {
   if (functionHeader) {
     const contentContainer = functionHeader.nextElementSibling;
     const functionForm = contentContainer.querySelector(".add-new-item");
-    console.log(functionForm);
+    // console.log(functionForm);
     
     if (eventTarget.matches(".add-new")) {
       contentContainer.classList.toggle("is-open", true);
@@ -119,14 +188,6 @@ function emptyInputs(input, input2, input3, input4) {
   input4.value = yearNow;
 }
 
-
-// const themeSrc = document.getElementById("theme-src");
-// const toggleDarkbtn = document.getElementById("toggle-dark-mode");
-
-// toggleDarkbtn.addEventListener("click", async () => {
-//   const isDarkMode = await window.darkMode.toggle();
-//   themeSrc.innerHTML = isDarkMode ? "Dark" : "Light";
-// });
 
 function editElement(event) {
   
@@ -302,13 +363,21 @@ editButtonsDiv.innerHTML = `
         const data = {itemNome:nameInput.value, itemData: `${dateDayInput.value}/${dateMonthInput.value}/${dateYearInput.value}`, id:elementId}
       window.bridge.editData(data)
       }
+
+      if (e.target.id === "cancel_edit") {
+        newNameInputWrap.parentNode.replaceChild(nameElement, newNameInputWrap);
+        newDateInputWrap.parentNode.replaceChild(dateElement, newDateInputWrap);
+        remainElement.style.opacity = ""
+        editButtonsDiv.parentNode.replaceChild(editElement,editButtonsDiv);
+
+      }
     })
 }
 
 function checkForChanges(firstValue, finalValue){
-  console.log("Fist value: ", firstValue);
-  console.log("Second value: ", finalValue);
-  console.log("Equal? ", finalValue === firstValue);
+  // console.log("Fist value: ", firstValue);
+  // console.log("Second value: ", finalValue);
+  // console.log("Equal? ", finalValue === firstValue);
   return finalValue === firstValue;
   
 }

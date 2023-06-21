@@ -15,17 +15,17 @@ if (require("electron-squirrel-startup")) {
 }
 
 function handleSaveData(event, data) {
-  const dadosExistentes = JSON.parse(fs.readFileSync("data/data.json"));
+  const dadosExistentes = JSON.parse(fs.readFileSync("src/data/data.json"));
   dadosExistentes.tracker.push(data);
 
-  fs.writeFile("data/data.json", JSON.stringify(dadosExistentes), (err) => {
+  fs.writeFile("src/data/data.json", JSON.stringify(dadosExistentes), (err) => {
     if (err) throw err;
     console.log("Item adicionado");
   });
 }
 
 function handleRemoveData(event, data) {
-  const dadosExistentes = JSON.parse(fs.readFileSync("data/data.json"));
+  const dadosExistentes = JSON.parse(fs.readFileSync("src/data/data.json"));
   const idToDelete = dadosExistentes.tracker.findIndex(
     (item) => item.id == data
   );
@@ -39,13 +39,13 @@ function handleRemoveData(event, data) {
     console.log("n achou");
   }
 
-  fs.writeFile("data/data.json", JSON.stringify(dadosExistentes), (err) => {
+  fs.writeFile("src/data/data.json", JSON.stringify(dadosExistentes), (err) => {
     if (err) throw err;
     console.log("Item Deletado");
   });
 }
 function handleEditData(event, data){
-  const dadosExistentes = JSON.parse(fs.readFileSync("data/data.json"));
+  const dadosExistentes = JSON.parse(fs.readFileSync("src/data/data.json"));
   console.log("This is the data passed: ", data)
   const itemtoEdit = dadosExistentes.tracker.findIndex(
     
@@ -62,7 +62,7 @@ function handleEditData(event, data){
     console.log("n achou");
   }
 
-  fs.writeFile("data/data.json", JSON.stringify(dadosExistentes), (err) => {
+  fs.writeFile("src/data/data.json", JSON.stringify(dadosExistentes), (err) => {
     if (err) throw err;
     console.log("Salvo");
   });
@@ -89,7 +89,7 @@ const createWindow = () => {
     },
   });
 
-  fs.readFile("data/data.json", (err, data) => {
+  fs.readFile("src/data/data.json", (err, data) => {
     if (err) throw err;
     const retrievedData = JSON.parse(data);
     mainWindow.webContents.send("retrievedData", retrievedData);

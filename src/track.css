@@ -7,16 +7,6 @@
     position: relative;
 }
 
-#tracker-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* border: 1px solid red; */
-    gap: 1.5rem;
-    height: fit-content;
-    padding: 1rem;
-}
 
 .form-icon-input-wrap{
     /* transform: translateX(-20%); */

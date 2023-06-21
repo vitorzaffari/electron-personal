@@ -42,13 +42,16 @@
 
 @media (prefers-color-scheme:dark) {
 
-
+  .timer-div {
+    background-color: #222;
+  
+  }
+  
   .item__tracker {
     background-color: #222;
   }
   .function-tracker{
     background-color: #fff;
-    border: 2px solid rgb(85, 85, 85);
   }
 
   .add-new-item {
@@ -429,4 +432,25 @@ input {
 .material-icons {
   opacity: .6;
 
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+  gap: 1.5rem;
+  height: fit-content;
+  padding: 1rem;}
+
+  
+.timer-div {
+  padding: .5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: .5rem;
 }
